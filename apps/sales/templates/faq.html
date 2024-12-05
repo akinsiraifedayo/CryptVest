@@ -1,0 +1,247 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}FAQ - CryptVest{% endblock %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/page-faq.css' %}" />
+{% endblock page_css %}
+
+{% block content %}
+<div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+  <h3 class="text-center"> Welcome to CryptVest, how can we assist you today? </h3>
+  <p class="text-center mb-0 px-3">Choose a category to find answers quickly</p>
+</div>
+
+<div class="row mt-4">
+  <!-- Navigation -->
+  <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-3">
+    <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">
+      <ul class="nav nav-align-left nav-pills flex-column">
+        <li class="nav-item">
+          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#funding">
+            <i class="ti ti-wallet me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Account Funding</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#withdrawals">
+            <i class="ti ti-cash me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Withdrawals</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">
+            <i class="ti ti-shield-check me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Security & Authentication</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#investments">
+            <i class="ti ti-trending-up me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">My Investments</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#referrals">
+            <i class="ti ti-users me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Referrals & Bonuses</span>
+          </button>
+        </li>
+      </ul>
+      <div class="d-none d-md-block">
+        <div class="mt-4">
+          <img src="{% static 'img/illustrations/girl-sitting-with-laptop.png' %}" class="img-fluid" width="270" alt="FAQ Image">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Navigation -->
+
+  <!-- FAQ's -->
+  <div class="col-lg-9 col-md-8 col-12">
+    <div class="tab-content py-0">
+      <div class="tab-pane fade show active" id="funding" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-wallet ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Account Funding</span>
+            </h4>
+            <small>Get help with funding your CryptVest account</small>
+          </div>
+        </div>
+        <div id="accordionFunding" class="accordion">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionFunding-1" aria-controls="accordionFunding-1">
+                How do I fund my CryptVest account?
+              </button>
+            </h2>
+
+            <div id="accordionFunding-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                You can fund your CryptVest account using cryptocurrency deposits. Once the deposit is confirmed on the blockchain, your account balance will reflect the added funds.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionFunding-2" aria-controls="accordionFunding-2">
+                How long does it take for my funds to appear?
+              </button>
+            </h2>
+            <div id="accordionFunding-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                Deposits made via cryptocurrency usually take between 10-30 minutes depending on network traffic.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="withdrawals" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-cash ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Withdrawals</span>
+            </h4>
+            <small>Help with withdrawing your investments</small>
+          </div>
+        </div>
+        <div id="accordionWithdrawals" class="accordion">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionWithdrawals-1" aria-controls="accordionWithdrawals-1">
+                How do I withdraw my funds?
+              </button>
+            </h2>
+
+            <div id="accordionWithdrawals-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                You can withdraw your funds by navigating to the "Withdraw" section in your dashboard. Withdrawals can be made in cryptocurrency.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionWithdrawals-2" aria-controls="accordionWithdrawals-2">
+                What are the withdrawal fees?
+              </button>
+            </h2>
+            <div id="accordionWithdrawals-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                Withdrawal fees vary based on the method used. Cryptocurrency withdrawals are subject to blockchain network fees + a security fee.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="security" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-shield-check ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0"><span class="align-middle">Security & Authentication</span></h4>
+            <small>Stay secure on CryptVest</small>
+          </div>
+        </div>
+        <div id="accordionSecurity" class="accordion">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionSecurity-1" aria-controls="accordionSecurity-1">
+                How do I keep my pass phrase secure?
+              </button>
+            </h2>
+
+            <div id="accordionSecurity-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                To keep your pass phrase secure, write it on a sheet of paper or store it somewhere where you would never lose it. This adds an extra layer of security to your CryptVest account.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="investments" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-trending-up ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">My Investments</span>
+            </h4>
+            <small>Track and manage your cryptocurrency investments</small>
+          </div>
+        </div>
+        <div id="accordionInvestments" class="accordion">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionInvestments-1" aria-controls="accordionInvestments-1">
+                How do I track the performance of my portfolio?
+              </button>
+            </h2>
+
+            <div id="accordionInvestments-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                You can track the performance of your portfolio in the "Investments" section of your dashboard. Real-time updates on your cryptocurrency holdings, price changes, and overall portfolio value are provided.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="referrals" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-users ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0"><span class="align-middle">Referrals & Bonuses</span></h4>
+            <small>Maximize rewards by inviting others to CryptVest</small>
+          </div>
+        </div>
+        <div id="accordionReferrals" class="accordion">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionReferrals-1" aria-controls="accordionReferrals-1">
+                How does the referral program work?
+              </button>
+            </h2>
+
+            <div id="accordionReferrals-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                The CryptVest referral program allows you to earn rewards for every user who signs up using your unique referral link and makes their first deposit. Bonuses are credited in cryptocurrency.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /FAQ's -->
+</div>
+{% endblock %}

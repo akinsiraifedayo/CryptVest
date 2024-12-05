@@ -1,0 +1,101 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Account settings - Edit Profile{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/umd/styles/index.min.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+<script src="{% static 'vendor/libs/@form-validation/umd/bundle/popular.min.js' %}"></script>
+<script src="{% static 'vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js' %}"></script>
+<script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js' %}"></script>
+<script src="{% static 'vendor/libs/cleavejs/cleave.js' %}"></script>
+<script src="{% static 'vendor/libs/cleavejs/cleave-phone.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/page-account-settings.css' %}" />
+{% endblock page_css %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/pages-auth.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+<h4 class="py-3 mb-4">
+  <span class="text-muted fw-light">{% translate "Account Settings" %} /</span> {% translate "Edit Profile" %}
+</h4>
+
+
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-md-row mb-4">
+      <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i class="ti-xs ti ti-users me-1"></i> Account</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'website_settings-change_password' %}"><i class="ti-xs ti ti-lock me-1"></i> Security</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'website_settings-wallets' %}"><i class="ti-xs ti ti-file-description me-1"></i> Wallet </a></li>
+      {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'pages-account-settings-notifications' %}"><i class="ti-xs ti ti-bell me-1"></i> Notifications</a></li> {% endcomment %}
+      {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'pages-account-settings-connections' %}"><i class="ti-xs ti ti-link me-1"></i> Connections</a></li> {% endcomment %}
+    </ul>
+    <!-- Change Password -->
+    <div class="card mb-4">
+      <h5 class="card-header">Edit Profile</h5>
+      <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success {% else %} alert-danger{% endif %}" role="alert">
+          <label>{{message}}</label>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form id="formAuthentication" method="POST" novalidate>
+          {% csrf_token %}
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="firstName" class="form-label">First Name</label>
+              <input class="form-control" type="text" id="firstName" name="first_name" value="{{form.first_name.value}}"/>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input class="form-control" type="text" name="last_name" id="lastName" value="{{form.last_name.value}}" />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="email" class="form-label">E-mail</label>
+              <input class="form-control" type="text" id="email" name="email" value="{{form.email.value}}" placeholder="john.doe@example.com"/>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label class="form-label" for="phoneNumber">Phone Number</label>
+              <div class="input-group input-group-merge">
+                {% comment %} <span class="input-group-text">US (+1)</span> {% endcomment %}
+                <input type="text" id="phoneNumber" name="phone_number" class="form-control" placeholder="Please enter your phone number" value="{{phone_number}}"/>
+              </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                <button type="reset" class="btn btn-label-secondary">Cancel</button>
+            </div>
+          </div>
+      </form>
+
+      </div>
+    </div>
+    <!--/ Change Password -->
+
+
+
+
+
+  </div>
+</div>
+
+{% endblock %}

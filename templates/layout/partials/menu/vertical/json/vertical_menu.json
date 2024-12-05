@@ -1,0 +1,75 @@
+{
+  "menu": [
+    {
+      "name": "Home",
+      "icon": "menu-icon tf-icons ti ti-smart-home",
+      "slug": "Investments",
+      "url": "investments-index"
+    },
+    {
+      "name": "Deposit",
+      "icon": "menu-icon tf-icons ti ti-file-dollar",
+      "slug": "all-referrals",
+      "url": "top_up_balance"
+    },
+    {
+      "name": "Withdrawals",
+      "icon": "menu-icon tf-icons ti ti-file",
+      "slug": "investments-withdraw",
+      "url": "investments-withdraw"
+    },
+    {
+      "name": "Returns",
+      "icon": "menu-icon tf-icons ti ti-book",
+      "slug": "investments-roi_transactions",
+      "url": "investments-roi_transactions"
+    },
+
+
+
+
+
+    {
+      "name": "Settings",
+      "slug": "app-ecommerce-settings",
+      "icon": "menu-icon tf-icons ti ti-settings",
+      "submenu": [
+        {
+          "name": "Account",
+          "url": "website_settings-edit_profile",
+          "slug": "website_settings-edit_profile"
+        },
+        {
+          "name": "Security",
+          "icon": "menu-icon tf-icons ti ti-lock",
+          "slug": "website_settings-change_password",
+          "url": "website_settings-change_password"
+        },
+        {
+          "name": "Wallet",
+          "icon": "menu-icon tf-icons ti ti-wallet",
+          "slug": "website_settings-wallets",
+          "url": "website_settings-wallets"
+        }
+      ]
+    },
+    {
+      "name": "Referrals",
+      "icon": "menu-icon tf-icons ti ti-users",
+      "slug": "all-referrals",
+      "url": "all-referrals"
+    },
+    {
+      "name": "FAQ and Support",
+      "icon": "menu-icon tf-icons ti ti-file",
+      "slug": "sales-faq",
+      "url": "sales-faq"
+    },
+    {
+      "name": "Terms and Conditions",
+      "icon": "menu-icon tf-icons ti ti-id",
+      "slug": "terms-and-conditions",
+      "url": "terms-and-conditions"
+    }
+  ]
+}

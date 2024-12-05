@@ -1,0 +1,19 @@
+{
+  "pages": [
+    {
+      "name": "Home",
+      "icon": "ti-smart-home",
+      "url": "/app/investments"
+    },
+    {
+      "name": "Withdrawal",
+      "icon": "ti ti-file-dollar",
+      "url": "/app/investments/withdraw"
+    },
+    {
+      "name": "Referrals",
+      "icon": "ti ti-users",
+      "url": "/app/referrals/"
+    }
+  ]
+}

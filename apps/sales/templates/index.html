@@ -1,0 +1,100 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block title %}Dashboard - User{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+<script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_js %}
+{{ block.super }}
+{% comment %} <script src="{% static 'js/app-ecommerce-dashboard.js' %}"></script> {% endcomment %}
+<script src="{% static 'js/sales-table.js' %}"></script>
+
+{% endblock page_js %}
+
+{% block content %}
+<div class="row">
+  <!-- View sales -->
+  <div class="col-xl-4 mb-4 col-lg-5 col-12">
+    <div class="card">
+      <div class="d-flex align-items-end row">
+        <div class="col-7">
+          <div class="card-body text-nowrap">
+            <h5 class="card-title mb-0">Welcome {{user.username | capfirst}}! 🎉</h5>
+            <p class="mb-2">Your Current Balance</p>
+            <h4 class="text-primary mb-1">{{current_user.balance | currency}}</h4>
+            <p class="mb-2">Membership Plan</p>
+            <a href="{% url 'upgrade-account' %}"><h5 class="text-primary mb-1">{{current_user.get_account_type_display}} {% if current_user.expiry_date and current_user.account_type != 'retailer'%} till {{current_user.expiry_date.date}} {% endif %}</h5></a>
+            <br>
+            <a href="{% url "packages" %}" class="btn btn-primary">Purchase Data</a>
+            {% if flutterwave_enabled == 'true' %}
+            <a href="{% url 'top_up_balance' %}" class="btn btn-success">Fund Account</a>
+            {% else %}
+            <a href="https://wa.me/{{purchase_number}}?text=Hello! I'd like to fund my account to purchase data. My username is *{{user.username}}.* Please provide instructions." class="btn btn-success">Fund Account</a>
+            {% endif %} 
+            {% if current_user.user.is_staff%}
+            <br><br>
+            <a href="/admin/" class="btn btn-outline-primary" rel="noopener noreferrer">Admin</a>
+            <a href="{% url 'sims:index'%}" class="btn btn-outline-warning">Sims Info</a>
+            {% endif %}
+            {% if current_user.allowed_to_invest and investment_allowed %}
+            <br><br>
+            <a href="{% url 'investments-index'%}" class="btn btn-outline-success">Investments</a>
+            {% endif %}
+
+          </div>
+        </div>
+        <div class="col-5 text-center text-sm-left">
+          <div class="card-body pb-0 px-0 px-md-4">
+            <img src="{% static 'img/illustrations/card-advance-sale.png' %}" height="140" alt="view sales">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- View sales -->
+
+
+  <!-- Invoice table -->
+
+  <div class="col-xl-8">
+    <div class="card">
+      <div class="table-responsive card-datatable">
+        <p class="mb-2 px-3 pt-3">Last 100 transactions</p>
+
+        <table class="table datatable-invoice border-top">
+          
+          <thead id="txnTable">
+            <tr>
+              <th></th>
+              <th>ID</th>
+              <th>Data Qty</th>
+              <th>Number</th>
+              <th>Txn Date</th>
+              <th>Txn Status</th>
+              <th>Txn Type</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- /Invoice table -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+
+{% block title %}Upgrade Account{% endblock %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/front-page-pricing.css' %}" />
+{% endblock page_css %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/front-page-pricing.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+<!-- Pricing Plans -->
+<section class="section-py first-section-pt">
+  <div class="container">
+    <h5>Pricing</h5>
+    <p> Upgrade your account to enjoy discounts.</p>
+    <div class="d-flex align-items-center justify-content-center flex-wrap gap-2 pb-5 pt-3 mb-0 mb-md-4">
+      <label class="switch switch-primary ms-3 ms-sm-0 mt-2">
+        <span class="switch-label">Monthly</span>
+        <input type="checkbox" class="switch-input price-duration-toggler" checked />
+        <span class="switch-toggle-slider">
+          <span class="switch-on"></span>
+          <span class="switch-off"></span>
+        </span>
+        <span class="switch-label">Annual</span>
+      </label>
+      <div class="mt-n5 ms-n5 d-none d-sm-block">
+        <i class="ti ti-corner-left-down ti-sm text-muted me-1 scaleX-n1-rtl"></i>
+        <span class="badge badge-sm bg-label-primary">Save up to 10%</span>
+      </div>
+    </div>
+
+    <div class="card-body text-center">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert {% if message.tags == 'success' %}alert-success {% else %} alert-danger{% endif %}" role="alert">
+        <label>{{message}}</label>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <div class="row mx-0 gy-3 px-lg-5">
+        <!-- Basic -->
+        {% if account_types %}
+          {% for account_type in account_types %}
+          <div class="col-xl mb-md-0 mb-4">
+            <div class="card border rounded shadow-none">
+              <div class="card-body">
+                <div class="my-3 pt-2 text-center">
+                  <img src="{% static 'img/illustrations/page-pricing-basic.png' %}" alt="{{account_type.name}} Image" height="140">
+                </div>
+                <h3 class="card-title text-center text-capitalize mb-1">{{account_type.name}}</h3>
+                <p class="text-center">{{account_type.description}}</p>
+                <div class="text-center h-px-100 mb-2">
+                  <div class="d-flex justify-content-center">
+                    <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">$</sup>
+                    <h1 class="display-4 mb-0 text-primary">{{account_type.monthly_price}}</h1>
+                    <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/month</sub>
+                  </div>
+                  <small class="price-yearly price-yearly-toggle text-muted">$ {{account_type.yearly_price}} / year</small>
+                </div>
+
+                <ul class="list-group ps-3 my-4">
+                  {% for function in account_type.functions.all %}
+                  <li class="mb-2">{{function.description}}</li>
+                  {% endfor %}
+                </ul>
+                {% if account_type.exact_name == 'retailer'  %}
+                <button type="button" class="btn btn-label-primary d-grid w-100 mt-3" data-bs-dismiss="modal">FREE</button>
+                {% elif current_user.account_type == account_type.exact_name %}
+                <button type="button" class="btn btn-label-success d-grid w-100 mt-3" data-bs-dismiss="modal">Expires {{current_user.expiry_date.date}}</button>
+
+                {% elif account_type.monthly_price == 0 or current_user.account_type == 'merchant'  %}
+                <button type="button" class="btn btn-label-danger d-grid w-100 mt-3" data-bs-dismiss="modal">Already Upgraded</button>
+                {% else %}
+                <form action="{% url "request-upgrade" %}" class="browser-default-validation" method="POST">
+                  {% csrf_token %}
+                  <input id="account_type_id_m" name="account_type_id" type="text" value="{{account_type.id}}" hidden required>
+                  <input id="subscription_m" name="subscription" type="text" value="monthly" hidden required>
+                  
+                  <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-success">
+                      <span class="me-2">Proceed to Buy Monthly Plan @ {{account_type.monthly_price | currency}} </span>
+                      <i class="ti ti-arrow-right scaleX-n1-rtl"></i>
+                    </button>
+                  </div>
+                </form>
+                <form action="{% url "request-upgrade" %}" class="browser-default-validation" method="POST">
+                  {% csrf_token %}
+                  <input id="account_type_id_y" name="account_type_id" type="text" value="{{account_type.id}}" hidden required>
+                  <input id="subscription_y" name="subscription" type="text" value="yearly" hidden required>
+                  <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-primary">
+                      <span class="me-2">Proceed to Buy Yearly Plan @ {{account_type.yearly_price | currency}} </span>
+                      <i class="ti ti-arrow-right scaleX-n1-rtl"></i>
+                    </button>
+                  </div>
+                </form>
+                {% endif %}
+                
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+        
+
+        <!-- Pro -->
+        {% comment %} <div class="col-xl mb-md-0 mb-4">
+          <div class="card border-primary border shadow-none">
+            <div class="card-body position-relative">
+              <div class="position-absolute end-0 me-4 top-0 mt-4">
+                <span class="badge bg-label-primary">Popular</span>
+              </div>
+              <div class="my-3 pt-2 text-center">
+                <img src="{% static 'img/illustrations/page-pricing-standard.png' %}" alt="Standard Image" height="140">
+              </div>
+              <h3 class="card-title text-center text-capitalize mb-1">Pro</h3>
+              <p class="text-center">For small to medium businesses</p>
+              <div class="text-center h-px-100 mb-2">
+                <div class="d-flex justify-content-center">
+                  <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">$</sup>
+                  <h1 class="price-toggle price-yearly display-4 text-primary mb-0">7</h1>
+                  <h1 class="price-toggle price-monthly display-4 text-primary mb-0 d-none">9</h1>
+                  <sub class="h6 text-muted pricing-duration mt-auto mb-2 fw-normal">/month</sub>
+                </div>
+                <small class="price-yearly price-yearly-toggle text-muted">$ 90 / year</small>
+              </div>
+
+              <ul class="list-group ps-3 my-4">
+                <li class="mb-2">Up to 5 users</li>
+                <li class="mb-2">120+ components</li>
+                <li class="mb-2">Basic support on Github</li>
+                <li class="mb-2">Monthly updates</li>
+                <li class="mb-0">Integrations</li>
+              </ul>
+
+              <button type="button" class="btn btn-primary d-grid w-100 mt-3" data-bs-dismiss="modal">Upgrade</button>
+            </div>
+          </div>
+        </div> {% endcomment %}
+
+        <!-- Enterprise -->
+        {% comment %} <div class="col-xl">
+          <div class="card border rounded shadow-none">
+            <div class="card-body">
+
+              <div class="my-3 pt-2 text-center">
+                <img src="{% static 'img/illustrations/page-pricing-enterprise.png' %}" alt="Enterprise Image" height="140">
+              </div>
+              <h3 class="card-title text-center text-capitalize mb-1">Enterprise</h3>
+              <p class="text-center">Solution for big organizations</p>
+
+              <div class="text-center h-px-100 mb-2">
+                <div class="d-flex justify-content-center">
+                  <sup class="h6 text-primary pricing-currency mt-3 mb-0 me-1">$</sup>
+                  <h1 class="price-toggle price-yearly display-4 text-primary mb-0">16</h1>
+                  <h1 class="price-toggle price-monthly display-4 text-primary mb-0 d-none">19</h1>
+                  <sub class="h6 pricing-duration mt-auto mb-2 fw-normal text-muted">/month</sub>
+                </div>
+                <small class="price-yearly price-yearly-toggle text-muted">$ 190 / year</small>
+              </div>
+
+              <ul class="list-group ps-3 my-4">
+                <li class="mb-2">Up to 10 users</li>
+                <li class="mb-2">150+ components</li>
+                <li class="mb-2">Basic support on Github</li>
+                <li class="mb-2">Monthly updates</li>
+                <li class="mb-0">Speedy build tooling</li>
+              </ul>
+
+              <button type="button" class="btn btn-label-primary d-grid w-100 mt-3" data-bs-dismiss="modal">Upgrade</button>
+            </div>
+          </div>
+        </div> {% endcomment %}
+      </div>
+  </div>
+</section>
+<!--/ Pricing Plans -->
+
+
+{% endblock %}

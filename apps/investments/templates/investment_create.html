@@ -1,0 +1,127 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block title %}Create Investment{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+<script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/app-ecommerce-dashboard.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+
+
+<div class="row">
+  <!-- View sales -->
+  <div class="col-xl-4 mb-4 col-lg-5 col-12">
+    <div class="card">
+      <div class="d-flex align-items-end row">
+        <div class="col-7">
+          <div class="card-body text-nowrap">
+            <h5 class="card-title mb-0">Welcome {{user.username | capfirst}}! 🎉</h5>
+
+            <p class="mb-2">Your Investment Balance</p>
+            <h4 class="text-primary mb-1">{{current_user.investment_balance | currency}}</h4>
+            <a href="{% url 'top_up_balance' %}" class="btn btn-success">Fund Account</a>
+          </div>
+        </div>
+        <div class="col-5 text-center text-sm-left">
+          <div class="card-body pb-0 px-0 px-md-4">
+            <img src="{% static 'img/illustrations/card-advance-sale.png' %}" height="140" alt="view sales">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- View sales -->
+
+  
+
+
+  
+  <!-- Invest Form-->
+  <div class="col-md mb-4 mb-md-0">
+    <div class="card">
+      <h5 class="card-header">Invest</h5>
+      <div class="card-body">
+        
+
+        <form method="POST" class="browser-default-validation" id="dataForm">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.investment_type.id_for_label }}">{{ form.investment_type.label }}</label>
+            {{ form.investment_type }}
+            {% if form.investment_type.errors %}
+                <div class="invalid-feedback">
+                    {{ form.investment_type.errors }}
+                </div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
+            {{ form.amount }}
+            {% if form.amount.errors %}
+                <div class="invalid-feedback">
+                    {{ form.amount.errors }}
+                </div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.tenure.id_for_label }}">{{ form.tenure.label }}</label>
+            {{ form.tenure }}
+            {% if form.tenure.errors %}
+                <div class="invalid-feedback">
+                    {{ form.tenure.errors }}
+                </div>
+            {% endif %}
+          </div>
+
+          <div class="row">
+              <div class="col-12">
+                  {% if investment_allowed and investment_types%}
+                  <button type="submit" class="btn btn-primary waves-effect waves-light"> Invest </button>
+                  {% else %}
+                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <span class="alert-icon text-danger me-2">
+                      <i class="ti ti-ban ti-xs"></i>
+                    </span>
+                    We are currently not taking investments
+                  </div>
+                  {% endif %}
+              </div>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+  <!-- Invest Form-->
+
+
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+{% endblock %}

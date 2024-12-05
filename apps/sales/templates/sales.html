@@ -1,0 +1,247 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block title %}Purchase Data{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+<script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/app-ecommerce-dashboard.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+
+
+<div class="row">
+  <!-- View sales -->
+  <div class="col-xl-4 mb-4 col-lg-5 col-12">
+    <div class="card">
+      <div class="d-flex align-items-end row">
+        <div class="col-7">
+          <div class="card-body text-nowrap">
+            <h5 class="card-title mb-0">Welcome {{user.username | capfirst}}! 🎉</h5>
+
+            <p class="mb-2">Your Current Balance</p>
+            <h4 class="text-primary mb-1">{{current_user.balance | currency}}</h4>
+            {% if flutterwave_enabled == 'true' %}
+            <a href="{% url 'top_up_balance' %}" class="btn btn-success">Fund Account</a>
+            {% else %}
+            <a href="https://wa.me/{{purchase_number}}?text=Hello! I'd like to fund my account to purchase data. My username is *{{user.username}}.* Please provide instructions." class="btn btn-success">Fund Account</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-5 text-center text-sm-left">
+          <div class="card-body pb-0 px-0 px-md-4">
+            <img src="{% static 'img/illustrations/card-advance-sale.png' %}" height="140" alt="view sales">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- View sales -->
+
+  <div class="col-xl-4 mb-4 col-lg-5 col-12">
+  <div class="card">
+    <div class="d-flex align-items-end row">
+      <div class="col-7">
+        <div class="card-body text-nowrap">
+          <p class="mb-2">Daily Stock Still Available</p>
+            <h4 class="text-primary mb-1">{{all_sims_balance}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- Purchase Form-->
+  <div class="col-md mb-4 mb-md-0">
+    <div class="card">
+      <h5 class="card-header">Purchase Data</h5>
+      <div class="card-body">
+
+
+        <form action="{% url "confirm-number" %}" class="browser-default-validation" id="dataForm">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label" for="network">Network</label>
+            <select name="network" class="form-select" required>
+                <option value="mtn">MTN</option>
+              </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="data_plan">Data Plan</label>
+            <select name="data_plan" class="form-select" required>
+                <option value=""></option>
+                {% for package in packages %}
+                <option value="{{package.description}}">{{package.name}} for ${{ package|get_price:current_user.account_type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+          <div class="mb-3">
+              <label class="form-label" for="phone_number">Phone Number</label>
+              <input id="phoneNumber" name="phone_number" type="text" class="form-control" placeholder="09033000000" required>
+
+          </div>
+          <div class="mb-3">
+              <label class="form-label" for="confirm_phone_number">Confirm Phone Number</label>
+              <input id="confirmPhoneNumber" name="confirm_phone_number" type="text" class="form-control" placeholder="09033000000" required>
+              <div id="messageBox" class="alert d-flex align-items-center d-none" role="alert">
+                <span id='messageIcon'></span>
+                <label id="messageToPass">MESSAGE HERE</label>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-12">
+                  {% if packages %}
+                  <button id="dataSubmitButton" type="submit" class="btn btn-primary waves-effect waves-light" disabled> Purchase </button>
+                  {% else %}
+                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <span class="alert-icon text-danger me-2">
+                      <i class="ti ti-ban ti-xs"></i>
+                    </span>
+                    We are currently out of stock — please check back at 12am!
+                  </div>
+                  {% endif %}
+              </div>
+          </div>
+        </form>
+        <br>
+        <br>
+        {% if current_user.account_type == 'retailer' %}
+          <p>Want even lower purchase rates? <a class="text-decoration-underline" href="{% url 'upgrade-account'%}"> Click Here!! </a> </p>
+        {% endif %}
+        <p>You can check your balance by dialing *323*4# or *310#, as SMS notifications may occasionally be delayed. </p>
+
+      </div>
+    </div>
+  </div>
+  <!-- Purchase Form-->
+
+
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+      const phoneNumber = document.getElementById('phoneNumber');
+      const confirmPhoneNumber = document.getElementById('confirmPhoneNumber');
+      const submitButton = document.getElementById('dataSubmitButton');
+      const messageBox = document.getElementById('messageBox');
+      const messageToPass = document.getElementById('messageToPass');
+      const form = document.getElementById('dataForm');
+      const messageIcon = document.getElementById('messageIcon');
+      const bellIcon = '<span class="alert-icon text-warning me-2"><i class="ti ti-bell ti-xs"></i></span>'
+      const checkIcon = '<span class="alert-icon text-success me-2"><i class="ti ti-check ti-xs"></i></span>'
+
+      function validatePhoneNumbers() {
+          if (phoneNumber.value === confirmPhoneNumber.value && phoneNumber.value !== '') {
+              submitButton.disabled = false;
+              messageBox.classList.add('d-none');
+              messageToPass.innerText = '';
+          } else {
+              submitButton.disabled = true;
+              messageBox.classList.remove('d-none');
+              messageBox.classList.remove('alert-success');
+              messageBox.classList.add('alert-danger');
+              messageIcon.innerHTML = bellIcon
+              messageToPass.innerText = 'Phone numbers do not match!';
+          }
+      }
+
+      phoneNumber.addEventListener('input', validatePhoneNumbers);
+      confirmPhoneNumber.addEventListener('input', validatePhoneNumbers);
+      form.addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent the form from submitting immediately
+
+          // Disable the submit button
+          submitButton.disabled = true;
+          submitButton.innerText = 'Processing...';
+
+          // Submit the form via an AJAX request
+          var formData = new FormData(form);
+          fetch(form.action, {
+            method: 'POST',
+            body: formData,
+          })
+          .then(function(response) {
+              if (!response.ok) {
+                  // Handle non-200 responses
+                  throw new Error('Network response was not ok');
+              }
+              return response.json(); // Parse the JSON response
+          })
+          .then(function(data) {
+              messageBox.classList.remove('d-none');
+
+
+              // Assuming the server returns a JSON object with a message and possibly other data
+              if (data.message) {
+                messageBox.classList.remove('alert-danger');
+                messageBox.classList.add('alert-success');
+                messageIcon.innerHTML = checkIcon
+                messageToPass.innerText = data.message;
+                submitButton.outerHTML = '<div class="alert alert-success" role="alert">Purchase Successful! redirecting now....</div>'
+                setTimeout(function() {
+                  window.location.href = '/#txnTable';
+                }, 1000);
+              } else {
+                messageBox.classList.remove('alert-success');
+                messageBox.classList.add('alert-danger');
+                messageIcon.innerHTML = bellIcon
+                messageToPass.innerText = data.error;
+                submitButton.innerText = 'Purchase';
+                submitButton.disabled = false;
+              }
+
+          })
+          .catch(function(error) {
+              // Handle errors
+              console.error('Form submission failed:', error);
+
+              if (error.response) {
+                  // If the server responded with an error, it might be a JSON response
+                  error.response.json().then(function(errorData) {
+                      if (errorData.error) {
+                          messageToPass.innerText = errorData.error;
+                      } else {
+                          messageToPass.innerText = 'Form submission failed';
+                      }
+                  }).catch(function() {
+                      messageToPass.innerText = 'Form submission failed';
+                  });
+              } else {
+                  messageToPass.innerText = 'Network error';
+              }
+
+              submitButton.disabled = false;
+              submitButton.innerText = 'Purchase';
+          });
+
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,403 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Terms and Conditions - CryptVest{% endblock %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/page-terms.css' %}" />
+{% endblock page_css %}
+
+{% block content %}
+
+<div class="card terms-header text-center rounded shadow-sm">
+    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+      <h3 class="card-title">Terms and Conditions</h3>
+      <p class="card-text mb-0 px-3">Please read these terms and conditions carefully before using CryptVest</p>
+    </div>
+  </div>
+  
+
+<div class="row mt-4">
+  <!-- Navigation -->
+  <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-3">
+    <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">
+      <ul class="nav nav-align-left nav-pills flex-column">
+        <li class="nav-item">
+          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#general">
+            <i class="ti ti-file-description me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">General Terms</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#eligibility">
+            <i class="ti ti-user-check me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Eligibility</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#account">
+            <i class="ti ti-id me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Account Registration</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#deposits">
+            <i class="ti ti-credit-card me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Deposits & Withdrawals</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#risks">
+            <i class="ti ti-alert-triangle me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Risk Disclosure</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#liability">
+            <i class="ti ti-shield-off me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Limitation of Liability</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#termination">
+            <i class="ti ti-power me-1 ti-sm"></i>
+            <span class="align-middle fw-medium">Termination of Services</span>
+          </button>
+        </li>
+      </ul>
+      <div class="d-none d-md-block">
+        <div class="mt-4">
+          <img src="{% static 'img/illustrations/girl-sitting-with-laptop.png' %}" class="img-fluid" width="270" alt="Terms Image">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Navigation -->
+
+  <!-- Terms and Conditions Content -->
+  <div class="col-lg-9 col-md-8 col-12">
+    <div class="tab-content py-0">
+      <!-- General Terms -->
+      <div class="tab-pane fade show active" id="general" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-file-description ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">General Terms</span>
+            </h4>
+            <small>Overview of CryptVest’s terms and conditions</small>
+          </div>
+        </div>
+        <div class="accordion" id="accordionGeneral">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionGeneral-1" aria-controls="accordionGeneral-1">
+                Acceptance of Terms
+              </button>
+            </h2>
+
+            <div id="accordionGeneral-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                By accessing or using the CryptVest platform, you agree to comply with and be bound by these Terms and Conditions, along with our Privacy Policy. If you do not agree with any part of these terms, you must not use our platform.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionGeneral-2" aria-controls="accordionGeneral-2">
+                Modifications to Terms
+              </button>
+            </h2>
+            <div id="accordionGeneral-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                CryptVest reserves the right to modify or replace these Terms at any time. Any changes will be effective immediately upon posting. It is your responsibility to review these Terms periodically for any updates or modifications.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Eligibility -->
+      <div class="tab-pane fade" id="eligibility" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-user-check ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Eligibility</span>
+            </h4>
+            <small>Who is eligible to use CryptVest?</small>
+          </div>
+        </div>
+        <div class="accordion" id="accordionEligibility">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionEligibility-1" aria-controls="accordionEligibility-1">
+                Age and Jurisdiction
+              </button>
+            </h2>
+
+            <div id="accordionEligibility-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                You must be at least 18 years old to use CryptVest. Furthermore, you must comply with any applicable laws and regulations in your jurisdiction. It is your responsibility to ensure that your use of CryptVest is legal.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionEligibility-2" aria-controls="accordionEligibility-2">
+                Prohibited Jurisdictions
+              </button>
+            </h2>
+            <div id="accordionEligibility-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                CryptVest services are not available to individuals residing in jurisdictions where cryptocurrency trading or holding is illegal. It is your responsibility to ensure compliance with local laws before using CryptVest.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Registration -->
+      <div class="tab-pane fade" id="account" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-id ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Account Registration</span>
+            </h4>
+            <small>Creating and managing your CryptVest account</small>
+          </div>
+        </div>
+        <div class="accordion" id="accordionAccount">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionAccount-1" aria-controls="accordionAccount-1">
+                Account Creation
+              </button>
+            </h2>
+
+            <div id="accordionAccount-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                To use CryptVest, you must create an account by providing accurate, complete, and up-to-date information. You are responsible for maintaining the confidentiality of your account credentials.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionAccount-2" aria-controls="accordionAccount-2">
+                Account Security
+              </button>
+            </h2>
+            <div id="accordionAccount-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                You are responsible for safeguarding your account and any activities that occur under your login credentials. CryptVest is not liable for any loss or damage resulting from unauthorized access to your account.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deposits and Withdrawals -->
+      <div class="tab-pane fade" id="deposits" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-credit-card ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Deposits & Withdrawals</span>
+            </h4>
+            <small>Managing your funds on CryptVest</small>
+          </div>
+        </div>
+        <div class="accordion" id="accordionDeposits">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionDeposits-1" aria-controls="accordionDeposits-1">
+                Deposits
+              </button>
+            </h2>
+
+            <div id="accordionDeposits-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                All deposits must be made in cryptocurrency supported by CryptVest. CryptVest does not accept fiat currency deposits. Please ensure the accuracy of your deposit details as transactions are irreversible.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionDeposits-2" aria-controls="accordionDeposits-2">
+                Withdrawals
+              </button>
+            </h2>
+            <div id="accordionDeposits-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                Withdrawals can be requested at any time, subject to processing times and withdrawal limits. Withdrawal fees may apply based on the cryptocurrency and network used. Ensure the correct wallet address is provided.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Risk Disclosure -->
+      <div class="tab-pane fade" id="risks" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-alert-triangle ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Risk Disclosure</span>
+            </h4>
+            <small>Understand the risks of cryptocurrency trading</small>
+          </div>
+        </div>
+        <div class="accordion" id="accordionRisks">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionRisks-1" aria-controls="accordionRisks-1">
+                Cryptocurrency Risks
+              </button>
+            </h2>
+
+            <div id="accordionRisks-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                Trading or investing in cryptocurrencies carries a high risk of loss. Prices are highly volatile, and you should only trade with funds you can afford to lose. CryptVest does not provide financial advice or guarantees.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionRisks-2" aria-controls="accordionRisks-2">
+                Regulatory Risks
+              </button>
+            </h2>
+            <div id="accordionRisks-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                The regulatory framework surrounding cryptocurrency is evolving, and changes in laws may impact your ability to use CryptVest. You are responsible for ensuring compliance with local regulations.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Limitation of Liability -->
+      <div class="tab-pane fade" id="liability" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-shield-off ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Limitation of Liability</span>
+            </h4>
+            <small>CryptVest’s liability limitations</small>
+          </div>
+        </div>
+        <div class="accordion" id="accordionLiability">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionLiability-1" aria-controls="accordionLiability-1">
+                Disclaimer of Warranties
+              </button>
+            </h2>
+
+            <div id="accordionLiability-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                CryptVest is provided “as is” without warranties of any kind. We do not guarantee the accuracy, completeness, or availability of the platform and are not responsible for any losses or damages arising from your use.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionLiability-2" aria-controls="accordionLiability-2">
+                Limitation of Liability
+              </button>
+            </h2>
+            <div id="accordionLiability-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                Under no circumstances will CryptVest or its affiliates be liable for any indirect, incidental, or consequential damages resulting from your use of the platform, including lost profits or loss of data.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Termination of Services -->
+      <div class="tab-pane fade" id="termination" role="tabpanel">
+        <div class="d-flex mb-3 gap-3">
+          <div>
+            <span class="badge bg-label-primary rounded-2 p-2">
+              <i class="ti ti-power ti-lg"></i>
+            </span>
+          </div>
+          <div>
+            <h4 class="mb-0">
+              <span class="align-middle">Termination of Services</span>
+            </h4>
+            <small>When and how services may be terminated</small>
+          </div>
+        </div>
+        <div class="accordion" id="accordionTermination">
+          <div class="card accordion-item active">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#accordionTermination-1" aria-controls="accordionTermination-1">
+                Suspension or Termination
+              </button>
+            </h2>
+
+            <div id="accordionTermination-1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                CryptVest reserves the right to suspend or terminate your access to the platform at any time, with or without cause, for reasons including but not limited to violation of these Terms or legal regulations.
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionTermination-2" aria-controls="accordionTermination-2">
+                Effect of Termination
+              </button>
+            </h2>
+            <div id="accordionTermination-2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                Upon termination, your right to use CryptVest immediately ceases, and any outstanding balances may be returned according to our withdrawal process. All provisions of these Terms, which by nature should survive termination, shall remain in effect.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- /Terms and Conditions Content -->
+</div>
+
+{% endblock %}

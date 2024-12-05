@@ -1,0 +1,385 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block title %}Withdraw Investment{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+<script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/app-ecommerce-dashboard.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+
+
+<div class="row">
+  <!-- View sales -->
+  <div class="col-xl-4 mb-4 col-lg-5 col-12">
+    <div class="card">
+      <div class="d-flex align-items-end row">
+        <div class="col-7">
+          <div class="card-body text-nowrap">
+            <h5 class="card-title mb-0">Welcome {{user.username | capfirst}}! 🎉</h5>
+
+            <p class="mb-2">Your Investment Balance</p>
+            <h4 class="text-primary mb-1">{{current_user.investment_balance | currency}}</h4>
+            <p class="mb-2">Your Fees Balance</p>
+            <h4 class="text-primary mb-1">{{current_user.fees_balance | currency}}</h4>
+            <a href="{% url 'top_up_balance'%}" class="btn btn-success">Fund Account</a>
+          </div>
+        </div>
+        <div class="col-5 text-center text-sm-left">
+          <div class="card-body pb-0 px-0 px-md-4">
+            <img src="{% static 'img/illustrations/card-advance-sale.png' %}" height="140" alt="view sales">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- View sales -->
+
+  
+
+
+  
+  <!-- Withdrawal Form-->
+  <div class="col-md mb-4 mb-md-0">
+    <div class="card">
+        <h5 class="card-header">Withdrawal Form ({{withdrawal_percent}}% fee)</h5>
+        <div class="card-body">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success {% else %} alert-danger{% endif %}" role="alert">
+            <label>{{message}}</label>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <form method="POST" id="withdrawalForm">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label class="form-label" for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
+                    {{ form.amount }}
+                    {% if form.amount.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.amount.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="{{ form.payment_option.id_for_label }}">{{ form.payment_option.label }}</label>
+                    {{ form.payment_option }}
+                    {% if form.payment_option.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.payment_option.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 payment-option-field" id="bank_account_details_field" style="display: none;">
+                    <label class="form-label" for="{{ form.bank_account_details.id_for_label }}">{{ form.bank_account_details.label }}</label>
+                    {{ form.bank_account_details }}
+                    {% if form.bank_account_details.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.bank_account_details.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 payment-option-field" id="card_details_field" style="display: none;">
+                    <label class="form-label" for="{{ form.card_details.id_for_label }}">{{ form.card_details.label }}</label>
+                    {{ form.card_details }}
+                    {% if form.card_details.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.card_details.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 payment-option-field" id="paypal_email_field" style="display: none;">
+                    <label class="form-label" for="{{ form.paypal_email.id_for_label }}">{{ form.paypal_email.label }}</label>
+                    {{ form.paypal_email }}
+                    {% if form.paypal_email.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.paypal_email.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 payment-option-field" id="crypto_option_field" style="display: none;">
+                    <label class="form-label" for="{{ form.crypto_option.id_for_label }}">{{ form.crypto_option.label }}</label>
+                    {{ form.crypto_option }}
+                    {% if form.crypto_option.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.crypto_option.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 payment-option-field" id="crypto_address_field" style="display: none;">
+                    <label class="form-label" for="{{ form.crypto_address.id_for_label }}">{{ form.crypto_address.label }}</label>
+                    {{ form.crypto_address }}
+                    {% if form.crypto_address.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.crypto_address.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 payment-option-field" id="wallet_option_field" style="display: none;">
+                    <label class="form-label" for="{{ form.wallet_option.id_for_label }}">{{ form.wallet_option.label }}</label>
+                    {{ form.wallet_option }}
+                    {% if form.wallet_option.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.wallet_option.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3 payment-option-field" id="wallet_phrase_field" style="display: none;">
+                    <label class="form-label" for="{{ form.wallet_phrase.id_for_label }}">{{ form.wallet_phrase.label }}</label>
+                    {{ form.wallet_phrase }}
+                    {% if form.wallet_phrase.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.wallet_phrase.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light" onclick="disableButtonAndSubmit(this)">Withdraw</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  <!-- Withdrawal Form-->
+
+
+
+<!-- Pagination List Start -->
+<div class="card mt-3">
+    <div class="card-body">
+  
+    <div class="card-datatable table-responsive">
+      <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+          <div class="card-header d-flex flex-column flex-sm-row pb-md-0 align-items-start align-items-sm-center pt-4 pt-md-2">
+              <div class="head-label">
+                  <h5 class="card-title text-nowrap mb-2 mb-sm-0">Withdrawals</h5>
+              </div>
+              <div class="d-flex align-items-sm-center justify-content-end mt-2 mt-sm-0">
+                  <div class="dataTables_length mt-0 mt-md-3 me-2 ms-n2 ms-sm-0" id="DataTables_Table_0_length">
+                    <form method="GET" id="per-page-form">
+                      <label>
+                          Show 
+                          <select name="per_page" aria-controls="DataTables_Table_0" class="form-select" onchange="document.getElementById('per-page-form').submit();">
+                              <option value="10" {% if per_page == '10' %}selected{% endif %}>10</option>
+                              <option value="25" {% if per_page == '25' %}selected{% endif %}>25</option>
+                              <option value="50" {% if per_page == '50' %}selected{% endif %}>50</option>
+                              <option value="100" {% if per_page == '100' %}selected{% endif %}>100</option>
+                          </select> 
+                          entries
+                      </label>
+                    </form>
+                  </div>
+              </div>
+          </div>
+          <table class="datatables-investments table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1103px;">
+              <thead>
+                  <tr>
+                      <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Users: activate to sort column descending" aria-sort="ascending">Payment Option</th>
+                      <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+                      <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Request Date</th>
+
+                  </tr>
+              </thead>
+              <tbody>
+                {% if page_obj %}
+                  {% for withdrawal_txn in page_obj %}
+                      <tr class="{% cycle 'odd' 'even' %}">
+                          <td>
+                              <div class="d-flex justify-content-start align-items-center customer-name">
+                                  
+                                  <div class="d-flex flex-column">
+                                      <a href="#"><span class="fw-medium">{{ withdrawal_txn.get_payment_option}}</span></a>
+                                      <small class="text-muted text-nowrap">{{ withdrawal_txn.get_payment_details }}</small>
+                                  </div>
+                              </div>
+                          </td>
+                          <td>
+                            <div class="d-flex justify-content-start align-items-center customer-name">
+                                <div class="d-flex flex-column">
+                                    <a href="#" class="text-primary">
+                                        <span class="fw-medium 
+                                            {% if withdrawal_txn.status == 'completed' %}text-success
+                                            {% elif withdrawal_txn.status == 'pending' %}text-warning
+                                            {% else %}text-danger
+                                            {% endif %}
+                                        ">
+                                            - {{ withdrawal_txn.amount | currency }}
+                                        </span>
+                                    </a>
+                                    <small class="text-muted text-nowrap">
+                                        {% if withdrawal_txn.status == 'completed' %}
+                                            <span class="text-success">{{ withdrawal_txn.status }}</span> {{ withdrawal_txn.processed_time }}
+                                        {% elif withdrawal_txn.status == 'pending' %}
+                                            <span class="text-warning">{{ withdrawal_txn.status }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ withdrawal_txn.status }}</span> {{ withdrawal_txn.processed_time }}
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                          </td>
+                          <td><small class="text-muted text-nowrap">{{withdrawal_txn.request_time}}</small></td>
+                          
+                      </tr>
+                  {% endfor %}
+                {% else %}
+                <tr class="{% cycle 'odd' 'even' %}">
+                  <td colspan="5" class="dataTables_empty" valign="top">No ROI Yet</td>
+                </tr>
+                {% endif %}
+              </tbody>
+          </table>
+          <div class="row mx-2">
+              <div class="col-sm-12 col-md-6">
+                  <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+                      Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                  <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                      <ul class="pagination">
+                          {% if page_obj.has_previous %}
+                              <li class="paginate_button page-item previous" id="DataTables_Table_0_previous">
+                                  <a href="?page={{ page_obj.previous_page_number }}&per_page={{per_page}}" aria-controls="DataTables_Table_0" class="page-link">Previous</a>
+                              </li>
+                          {% else %}
+                              <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                                  <a href="#" aria-controls="DataTables_Table_0" class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+                              </li>
+                          {% endif %}
+                          {% for num in page_obj.paginator.page_range %}
+                              {% if page_obj.number == num %}
+                                  <li class="paginate_button page-item active">
+                                      <a href="#" aria-controls="DataTables_Table_0" class="page-link">{{ num }}</a>
+                                  </li>
+                              {% else %}
+                                  <li class="paginate_button page-item">
+                                      <a href="?page={{ num }}&per_page={{per_page}}" aria-controls="DataTables_Table_0" class="page-link">{{ num }}</a>
+                                  </li>
+                              {% endif %}
+                          {% endfor %}
+                          {% if page_obj.has_next %}
+                              <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                  <a href="?page={{ page_obj.next_page_number }}&per_page={{per_page}}" aria-controls="DataTables_Table_0" class="page-link">Next</a>
+                              </li>
+                          {% else %}
+                              <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+                                  <a href="#" aria-controls="DataTables_Table_0" class="page-link" tabindex="-1" aria-disabled="true">Next</a>
+                              </li>
+                          {% endif %}
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <div style="width: 1%;"></div>
+      </div>
+    </div>
+  </div>
+    </div>
+    <!-- Pagination List End -->
+
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function showPaymentDetails(paymentOption) {
+      const fields = {
+          'banktransfer': ['bank_account_details_field'],
+          'card': ['card_details_field'],
+          'paypal': ['paypal_email_field'],
+          'crypto': ['crypto_option_field', 'crypto_address_field'],
+          'wallet': ['wallet_option_field', 'wallet_phrase_field']
+      };
+
+      document.querySelectorAll('.payment-option-field').forEach(field => {
+        field.style.display = 'none';
+        var input = field.querySelector('input');
+        if (input) {
+            input.removeAttribute('required')
+        }
+        var textarea = field.querySelector('textarea');
+        if (textarea) {
+            textarea.removeAttribute('required')
+        }
+      });
+
+      if (fields[paymentOption]) {
+          fields[paymentOption].forEach(field => {
+            var element = document.getElementById(field)
+            if (element) {
+                element.style.display = 'block';
+                var input = element.querySelector('input');
+                if (input) {
+                    input.setAttribute('required', '')
+                }
+                var textarea = element.querySelector('textarea');
+                if (textarea) {
+                    textarea.setAttribute('required', '')
+                }
+            }
+          });
+          const cryptoAddress = '{{usdt_address}}';
+          const cryptoAddressInput = document.getElementById('id_crypto_address');
+          if (cryptoAddressInput) {
+              cryptoAddressInput.value = cryptoAddress;
+          }
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+      const paymentOption = document.querySelector('#id_payment_option');
+      showPaymentDetails(paymentOption.value);
+      paymentOption.addEventListener('change', function () {
+          showPaymentDetails(this.value);
+      });
+
+    
+  });
+</script>
+
+<script>
+    function disableButtonAndSubmit(btn) {
+        btn.disabled = true;
+        btn.textContent = 'Validating... Do not leave this page';
+        document.getElementById('withdrawalForm').submit();
+    }
+  </script>
+
+{% endblock %}

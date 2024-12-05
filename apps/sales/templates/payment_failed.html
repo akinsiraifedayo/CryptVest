@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Payment Failed</h2>
+<p>There was an issue with your payment. Please try again.</p>
+<a href="{% url 'top_up_balance' %}">Back to Top Up</a>
+<p>response is {{data}}</p>
+{% endblock %}

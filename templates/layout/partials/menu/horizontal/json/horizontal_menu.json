@@ -1,0 +1,11 @@
+{
+  "menu": [
+    {
+      "name": "Home Page",
+      "icon": "menu-icon tf-icons ti ti-smart-home",
+      "slug": "dashboard",
+      "url": "investments-index",
+      
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Add Balance to {{ user_profile.user.username }}</h1>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Add Balance">
+</form>
+<a href="..">Back to list</a>
+{% endblock %}

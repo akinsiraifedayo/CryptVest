@@ -1,0 +1,9 @@
+{
+  "pages": [
+    {
+      "name": "Dashboard Analytics",
+      "icon": "ti-smart-home",
+      "url": "/"
+    }
+  ]
+}

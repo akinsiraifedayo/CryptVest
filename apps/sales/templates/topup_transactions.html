@@ -1,0 +1,174 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block title %}Dashboard - User{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+<script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_js %}
+{{ block.super }}
+{% comment %} <script src="{% static 'js/app-ecommerce-dashboard.js' %}"></script> {% endcomment %}
+{% endblock page_js %}
+
+{% block content %}
+<div class="row">
+
+
+
+<p></p>
+      <!-- Transactions -->
+      <div class="col-md-6 col-xl-4 mb-4">
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between">
+            <div class="card-title m-0 me-2">
+              <h5 class="m-0 me-2">Credit Transactions</h5>
+              <small class="text-muted">Automated TopUp Transactions</small>
+            </div>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success {% else %} alert-danger{% endif %}" role="alert">
+              <label>{{message}}</label>
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+          </div>
+          <div class="card-body">
+            <ul class="p-0 m-0">
+              {% for online_transaction in  online_transactions %}
+              {% if online_transaction.status == 'successful' %}
+              <li class="d-flex mb-3 pb-1 align-items-center">
+                <div class="badge bg-label-success rounded me-3 p-2">
+                  <i class="ti ti-browser-check ti-sm"></i>
+                </div>
+                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                  <div class="me-2">
+                    <h6 class="mb-0">Successful</h6>
+                    <small class="text-muted d-block">{{online_transaction.created_at}}</small>
+                  </div>
+                  <div class="user-progress d-flex align-items-center gap-1">
+                    <h6 class="mb-0 text-success">+{{online_transaction.amount | currency}}</h6>
+                  </div>
+                </div>
+              </li>
+              {% elif online_transaction.status == 'pending' %}
+              <li class="d-flex mb-3 pb-1 align-items-center">
+                <div class="badge bg-label-warning rounded me-3 p-2">
+                  <i class="ti ti-browser-check ti-sm"></i>
+                </div>
+                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                  <div class="me-2">
+                    <h6 class="mb-0">Pending</h6>
+                    <small class="text-muted d-block">{{online_transaction.created_at}}</small>
+                  </div>
+                  <div class="user-progress d-flex align-items-center gap-1">
+                    <h6 class="mb-0 text-warning">{{online_transaction.amount | currency}}</h6>
+                  </div>
+                </div>
+              </li>
+              {% else %}
+              <li class="d-flex mb-3 pb-1 align-items-center">
+                <div class="badge bg-label-danger me-3 rounded p-2">
+                  <i class="ti ti-wallet ti-sm"></i>
+                </div>
+                
+                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                  <div class="me-2">
+                    <h6 class="mb-0">Failed</h6>
+                    <small class="text-muted d-block">{{online_transaction.created_at}}</small>
+                  </div>
+                  <div class="user-progress d-flex align-items-center gap-1">
+                    <h6 class="mb-0 text-danger">{{online_transaction.amount | currency}}</h6>
+                  </div>
+                </div> 
+              </li>
+              {% endif %}
+              
+              {% endfor %}
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <!--/ Transactions -->
+
+
+
+      <p></p>
+      <!-- Transactions -->
+      <div class="col-md-6 col-xl-4 mb-4">
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between">
+            <div class="card-title m-0 me-2">
+              <h5 class="m-0 me-2">Credit Transactions</h5>
+              <small class="text-muted">Manual TopUp Transactions</small>
+            </div>
+            
+          </div>
+          <div class="card-body">
+            <ul class="p-0 m-0">
+              {% for admin_transaction in  admin_transactions %}
+              {% if admin_transaction.amount > 0 %}
+              <li class="d-flex mb-3 pb-1 align-items-center">
+                <div class="badge bg-label-success rounded me-3 p-2">
+                  <i class="ti ti-browser-check ti-sm"></i>
+                </div>
+                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                  <div class="me-2">
+                    <h6 class="mb-0">Account Topup</h6>
+                    <small class="text-muted d-block">{{admin_transaction.timestamp}}</small>
+                  </div>
+                  <div class="user-progress d-flex align-items-center gap-1">
+                    <h6 class="mb-0 text-success">+{{admin_transaction.amount | currency}}</h6>
+                  </div>
+                </div>
+              </li>
+              {% else %}
+              <li class="d-flex mb-3 pb-1 align-items-center">
+                <div class="badge bg-label-primary me-3 rounded p-2">
+                  <i class="ti ti-wallet ti-sm"></i>
+                </div>
+                
+                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                  <div class="me-2">
+                    <h6 class="mb-0">Account Debit</h6>
+                    <small class="text-muted d-block">{{admin_transaction.timestamp}}</small>
+                  </div>
+                  <div class="user-progress d-flex align-items-center gap-1">
+                    <h6 class="mb-0 text-danger">{{admin_transaction.amount | currency}}</h6>
+                  </div>
+                </div> 
+              </li>
+              {% endif %}
+              
+              {% endfor %}
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--/ Transactions -->
+
+
+
+</div>
+
+{% endblock %}
