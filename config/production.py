@@ -3,7 +3,7 @@ import os
 
 SUBDOMAIN_NAME = os.getenv('SUBDOMAIN_NAME', '')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [f'{SUBDOMAIN_NAME}']
 
