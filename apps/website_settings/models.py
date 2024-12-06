@@ -26,7 +26,6 @@ class WebsiteSettings(models.Model):
     maintenance_end = models.DateTimeField(null=True, blank=True)
     
 
-    # default_membership = models.CharField(max_length=8, choices=ACCOUNT_TYPES, default='retailer')
 
     def save(self, *args, **kwargs):
         if not self.pk and WebsiteSettings.objects.exists():
@@ -48,9 +47,6 @@ class InvestmentSetting(models.Model):
     max_withdrawal = models.DecimalField(max_digits=10, decimal_places=2, default=500000)
     withdrawal_fees_percent = models.DecimalField(max_digits=10, decimal_places=2, default=10)
     
-
-    # default_membership = models.CharField(max_length=8, choices=ACCOUNT_TYPES, default='retailer')
-
     def save(self, *args, **kwargs):
         if not self.pk and InvestmentSetting.objects.exists():
             raise ValidationError('There can be only one InvestmentSetting instance')

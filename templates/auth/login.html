@@ -60,11 +60,11 @@
         {% endif %}
         <p class="mb-4">Please sign-in to your account and start your investment journey</p>
 
-        {% comment %} <div class="alert alert-primary small">
+        <div class="alert alert-primary small">
           <p class="text-caption mb-1"> Admin Email: <strong>admin@demo.com</strong> / Username: <strong>admin</strong></p>
           <p class="text-caption mb-1"> Client Email: <strong>client@demo.com</strong> / Username: <strong>client</strong></p>
           <p class="text-caption mb-0">Password: <strong>Pwd_1234</strong></p>
-        </div> {% endcomment %}
+        </div>
         {% if messages %}
         {% for message in messages %}
         <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-warning{% endif %}" role="alert">
