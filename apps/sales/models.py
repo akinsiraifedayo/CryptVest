@@ -11,7 +11,6 @@ from django.db.models import Max
 from apps.website_settings.models import WebsiteSettings
 from django.contrib.auth.models import User
 import datetime
-from config.decorators import single_instance
 import string
 
 class UserRequest(models.Model):
