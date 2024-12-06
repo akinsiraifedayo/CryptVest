@@ -75,10 +75,6 @@ class UserAdmin(DefaultUserAdmin):
         super().save_model(request, obj, form, change)
         UserProfile.objects.get_or_create(user=obj)
 
-@admin.register(Sim)
-class SimsAdmin(admin.ModelAdmin):
-    list_display = ('phone_number', 'sim_number', 'data_left', 'data_sent', 'current_balance', 'confirmed_logged_in',  'just_refreshed', 'is_exhausted')
-    readonly_fields = ('access_token', 'auth0_client', 'client_id', 'cookie', 'refresh_token')
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
@@ -124,7 +120,6 @@ class WebhookLogAdmin(admin.ModelAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(DataPackage, DataPackageAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(AdminTransaction)
 admin.site.register(AccountType, AccountTypeAdmin)
